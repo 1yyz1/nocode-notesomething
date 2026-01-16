@@ -2,22 +2,25 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "next-themes";
 import { navItems } from "./nav-items";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <HashRouter>
-        <Routes>
-          {navItems.map(({ to, page }) => (
-            <Route key={to} path={to} element={page} />
-          ))}
-        </Routes>
-      </HashRouter>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" themes={['light', 'dark']}>
+      <TooltipProvider>
+        <Toaster />
+        <HashRouter>
+          <Routes>
+            {navItems.map(({ to, page }) => (
+              <Route key={to} path={to} element={page} />
+            ))}
+          </Routes>
+        </HashRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

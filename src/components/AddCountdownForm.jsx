@@ -1,6 +1,7 @@
 import { Edit3, Plus, Calendar, Clock } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
+
+const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit, addToast }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('00:00');
@@ -29,19 +30,19 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
     e.preventDefault();
     
     if (!title.trim()) {
-      alert('还没输记什么呢？');
+      addToast('还没输记什么呢？', 'error');
       return;
     }
     
     if (!date) {
-      alert('哪一天呢？');
+      addToast('哪一天呢？', 'error');
       return;
     }
 
     const targetDate = new Date(`${date}T${time}`);
     
     if (targetDate <= new Date()) {
-      alert('目标时间必须晚于当前时间');
+      addToast('目标时间必须晚于当前时间', 'error');
       return;
     }
 
@@ -73,16 +74,16 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
         {editingItem ? (
           <>
-            <Edit3 className="h-5 w-5 text-blue-500" />
+            <Edit3 className="h-5 w-5 text-blue-500 dark:text-blue-400" />
             编辑倒计时
           </>
         ) : (
           <>
-            <Plus className="h-5 w-5 text-blue-500" />
+            <Plus className="h-5 w-5 text-blue-500 dark:text-blue-400" />
             添加新倒计时
           </>
         )}
@@ -90,7 +91,7 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             记啥？
           </label>
           <input
@@ -98,13 +99,13 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="要记点什么呢？"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
           />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               哪天？
             </label>
@@ -112,12 +113,12 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
               <Clock className="h-4 w-4" />
               哪个点？
             </label>
@@ -125,13 +126,13 @@ const AddCountdownForm = ({ onAdd, editingItem, onUpdate, onCancelEdit }) => {
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             优先级
           </label>
           <div className="flex gap-4">
